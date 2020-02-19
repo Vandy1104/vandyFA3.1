@@ -12,6 +12,17 @@ module.exports = function(grunt) {
             dest: 'js/script.min.js'
           }
         },
+    cssmin: {
+    target: {
+    files: [{
+    expand: true,
+    cwd: 'css/',
+    src: ['css/style.css'],
+    dest: 'css/',
+    ext: '.min.css'
+    }]
+  }
+},
     watch: {
         all: {
         files: ['sass/style.scss','css/style.css','js/script.js'],
@@ -53,6 +64,7 @@ module.exports = function(grunt) {
 
   // Load the plugin that provides the "uglify" task.
   // grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-csslint');
@@ -61,6 +73,7 @@ module.exports = function(grunt) {
 
 
   // Default task(s).
+  grunt.registerTask('cssmin', ['cssmin']);
   grunt.registerTask('ugly', ['uglify']);
   grunt.registerTask('default', ['watch']);
 
