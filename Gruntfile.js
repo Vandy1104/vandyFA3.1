@@ -12,17 +12,39 @@ module.exports = function(grunt) {
             dest: 'js/script.min.js'
           }
         },
+        imagemin: {
+        static: {
+            // options: {
+            //     optimizationLevel: 3,
+            //     svgoPlugins: [{removeViewBox: false}],
+            //     use: [mozjpeg()] // Example plugin usage
+            // },
+            files: {
+                'imagemin/*.png': 'images/*.png',
+                'imagemin/*.jpg': 'images/*.jpg',
+                'imagemin/*.gif': 'images/*.gif'
+            }
+        },
+        dynamic: {
+            files: [{
+                expand: true,
+                cwd: 'images/',
+                src: ['images/*.{png,jpg,gif}'],
+                dest: 'imagemin/'
+            }]
+        }
+    },
     cssmin: {
-    target: {
-    files: [{
-    expand: true,
-    cwd: 'css/',
-    src: ['css/style.css'],
-    dest: 'css/',
-    ext: '.min.css'
-    }]
-  }
-},
+      target: {
+        files: [{
+          expand: true,
+          cwd: 'css/',
+          src: ['style.css', '!*.min.css'],
+          dest: 'css/',
+          ext: '.min.css'
+        }]
+      }
+    },
     watch: {
         all: {
         files: ['sass/style.scss','css/style.css','js/script.js'],
@@ -64,18 +86,23 @@ module.exports = function(grunt) {
 
   // Load the plugin that provides the "uglify" task.
   // grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
+
+
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-csslint');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+
 
 
   // Default task(s).
-  grunt.registerTask('cssmin', ['cssmin']);
+  // grunt.registerTask('imgmin', ['imagemin']);
+  // grunt.registerTask('cssmin', ['cssmin']);
   grunt.registerTask('ugly', ['uglify']);
-  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('default', ['imagemin','cssmin','csslint','watch']);
 
 
 };
